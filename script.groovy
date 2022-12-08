@@ -1,4 +1,3 @@
-
 def buildImage() {
     echo "building the docker image..."
     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
@@ -26,12 +25,14 @@ def sonarScan() {
         
 }
 
-def deployApp(String serverIp, String serverUser) {
-    echo 'deploying the application...'
-    def composeRun = '"export MYSQLDB_USER=root MYSQLDB_ROOT_PASSWORD=sofiene MYSQLDB_DATABASE=pet_store MYSQLDB_LOCAL_PORT=3306 MYSQLDB_DOCKER_PORT=3306 SPRING_LOCAL_PORT=8080 SPRING_DOCKER_PORT=8080 && docker-compose up -d"'
-    sshagent (credentials: ['deployment-server']) {
-        sh "ssh -o StrictHostKeyChecking=no ${serverUser}@${serverIp} ${composeRun}"
-    }
+def deployApp() {
+         def instance = "jenkins@20.23.253.136"
+         def shellCmd = "docker-compose up -d"
+
+               sshagent(credentials: ['deploy-credentials']) {
+                    sh "scp -o StrictHostKeyChecking=no docker-compose.yml ${instance}:/home/jenkins"
+                    sh "ssh -o StrictHostKeyChecking=no ${instance} ${shellCmd}"
+ }
 }
 
 def cleanUntaggedImages(String serverIp, String serverUser){
