@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY target /usr/src/app
 COPY . /usr/src/app
 # Compile and package the application to an executable JAR
-RUN mvn clean package
+RUN mvn clean package -Dmaven.test.skip=true
 
 FROM openjdk:8-jdk-alpine
 
