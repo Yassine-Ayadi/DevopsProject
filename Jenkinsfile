@@ -23,6 +23,13 @@ pipeline {
                 }
             }
         }
+        stage("unit tests") {
+            steps {
+                script {
+                    sh 'mvn test'
+                }
+            }
+        }
         stage("SonarQube Testing and Scan") {
             environment {
                 CI = 'true'
