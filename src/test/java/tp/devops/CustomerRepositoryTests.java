@@ -56,7 +56,7 @@ public class CustomerRepositoryTests {
 
         Customer customer = customerRepository.findById(1L).get();
 
-        customer.setName(true);
+        customer.setName('sarah');
 
         Customer customerUpdated =  customerRepository.save(customer);
 
