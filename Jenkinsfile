@@ -38,8 +38,6 @@ pipeline {
             agent{ docker { image 'maven'}  }
               steps {
                 script {
-                   // sh 'mvn clean install -Dmaven.test.skip=true'
-                   // sh 'mvn clean install -Dmaven.test.skip=true'
                     gv.sonarScan()
                 }
               }
